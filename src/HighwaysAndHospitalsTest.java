@@ -75,7 +75,7 @@ public class HighwaysAndHospitalsTest {
             {
                 long answerCost = Long.parseLong(answerReader.readLine());
                 loadTest(testReader);
-                System.out.println("testing number " + i);
+                System.out.println("testing number " + i + ", n=" + n + ", hpC=" + hospitalCost + ", hwC=" + hightwayCost);
                 assertEquals(answerCost, studentSolution.cost(n, hospitalCost, hightwayCost, cities),
                         "Test " + testNumber + " failed: should return " + answerCost);
             }
