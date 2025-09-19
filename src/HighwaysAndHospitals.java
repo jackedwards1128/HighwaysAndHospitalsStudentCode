@@ -4,16 +4,13 @@
  * for Adventures in Algorithms
  * at Menlo School in Atherton, CA
  *
- * Completed by: [YOUR NAME HERE]
+ * Completed by: Jack Edwards
  *
  */
 
 public class HighwaysAndHospitals {
 
-    /**
-     * TODO: Complete this function, cost(), to return the minimum cost to provide
-     *  hospital access for all citizens in Menlo County.
-     */
+
     public static long cost(int n, int hospitalCost, int highwayCost, int cities[][]) {
 
         // Test case for if it's cheaper to just build a hospital everywhere
@@ -23,42 +20,38 @@ public class HighwaysAndHospitals {
 
         long ecosystem_amount = 0;
 
+        // Create map to house the root of a given city
         int[] map_tree = new int[n+1];
 
-        int[] path_to_root = new int[n];
+        // Array to store the cities we look at when searching for their root
+//        int[] path_to_root = new int[n];
+        int path_to_root = 0;
 
         for (int[] connection : cities) {
             // find parent's root
             int root_of_parent = connection[0];
-            int i = 0;
-            if(map_tree[root_of_parent] == 0)
-                i = -1;
+            path_to_root = -1;
 
             while (map_tree[root_of_parent] != 0) {
-                path_to_root[i] = root_of_parent;
-                i++;
+                path_to_root = root_of_parent;
                 root_of_parent = map_tree[root_of_parent];
             }
-            while (--i >= 0) {
-                map_tree[path_to_root[i]] = root_of_parent;
-                i--;
-            }
+            if (path_to_root != -1)
+                map_tree[path_to_root] = root_of_parent;
 
             // find child's root
             int new_child = connection[1];
-            i = 0;
-            if(map_tree[new_child] == 0)
-                i = -1;
+            path_to_root = -1;
 
             while(map_tree[new_child] != 0) {
-                path_to_root[i] = new_child;
-                i++;
+//                path_to_root[i] = new_child;
+//                i++;
+                path_to_root = new_child;
                 new_child = map_tree[new_child];
             }
-            while (--i >= 0) {
-                map_tree[path_to_root[i]] = new_child;
-                i--;
-            }
+
+            if(path_to_root != -1)
+                map_tree[path_to_root] = new_child;
 
             // check if same root
             if (root_of_parent == new_child) {
@@ -76,16 +69,7 @@ public class HighwaysAndHospitals {
 
         ecosystem_amount--;
 
-
-        // necessary highways = amount of cities in an ecosystem minus 1
-        // total necessary highways = amount of total cities - amount of ecosystems
-
-//        System.out.println("hospitals: " + ecosystem_amount);
-//        System.out.println("highways: " + (n - ecosystem_amount));
-
         long final_cost = (ecosystem_amount * hospitalCost) + ((n - ecosystem_amount) * highwayCost);
-
-//        System.out.println("cost: " + final_cost);
 
         return final_cost;
     }
